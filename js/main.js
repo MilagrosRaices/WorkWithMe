@@ -1,47 +1,52 @@
 (function(){
-	// Variables
 	
-	    const lista = document.getElementById("lista"),
-		tareaInput = document.getElementById("tareaInput"),
-		btnNuevaTarea = document.getElementById("btn-agregar");
-
-
+	// Variable
+	
+	const lista = document.getElementById("lista"),
+	tareaInput = document.getElementById("tareaInput"),
+	btnNuevaTarea = document.getElementById("btn-agregar");
+	
 	// Funciones
-	const agregarTarea = function(){
+	
+	const agregarTarea = function(){ 
+		
+		let tarea = tareaInput.value, 
+		nuevaTarea = document.createElement("li"),
+		enlace = document.createElement("a"),
+		contenido = document.createTextNode(tarea);
 
-		let tarea = tareaInput.value,
-			nuevaTarea = document.createElement("li"),
-			enlace = document.createElement("a"),
-			contenido = document.createTextNode(tarea);
+		
+		localStorageWorkList(tarea);
+		
+		workingList(tarea)
 
-			console.log(tarea);
-			const workList = [];
-			localStorageWorkList(tarea);
-			workList.push(tarea);
-
-			function localStorageWorkList (){
-				const storedList = localStorage.getItem('workList');
-				if(storedList == null){
-					workList=[];
-				}else{
-					workList = JSON.parse(storedList);
-				}
-				return workList;
+		function workingList (){
+			const storedList = localStorage.getItem('workList');
+			if(storedList == null){
+				workList=[];
+			}else{
+				workList = JSON.parse(storedList);
 			}
-			function localStorageWorkList(pList){
-				localStorage.setItem('workList',JSON.stringify(pList));
-			}
+			return workList;
+		}
 
-		 if (tarea === "") {
+		function localStorageWorkList(pList){
+			localStorage.setItem('workList',JSON.stringify(pList));
+		}
+		
+
+		if (tarea === "") {
 			tareaInput.setAttribute("placeholder", "Agrega una tarea valida");
 			tareaInput.className = "error";
 			return false;
 		}
 
+
+
 		//  contenido del enlace
 		enlace.appendChild(contenido);
 		// Atributo href
-		enlace.setAttribute("href", "#");
+		/*enlace.setAttribute("href", "#");*/
 		// Nueva tarea
 		nuevaTarea.appendChild(enlace);
 		// Nueva tarea a la lista
@@ -57,7 +62,7 @@
 
 	};
 	const comprobarInput = function(){
-		tareaInput.className = "";
+		tareaInput.className
 		tareaInput.setAttribute("placeholder", "Agrega tu tarea");
 	};
 

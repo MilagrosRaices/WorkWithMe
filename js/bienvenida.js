@@ -21,8 +21,8 @@
                 if(result.isConfirmed)
                 {
                     Swal.fire({
-                        title: `GENIAL!`, 
-                        text: 'Comenzemos',
+                        title: "GENIAL!", 
+                        text: "Comenzemos",
                         icon: 'success',
                         confirmButtonText: '❤'
                     });
