@@ -10,35 +10,18 @@
 	
 	const agregarTarea = function(){ 
 		
-		let tarea = tareaInput.value, 
+		let tarea = tareaInput.value,
 		nuevaTarea = document.createElement("li"),
 		enlace = document.createElement("a"),
 		contenido = document.createTextNode(tarea);
-
-		
-		localStorageWorkList(tarea);
-		
-		workingList(tarea)
-
-		function workingList (){
-			const storedList = localStorage.getItem('workList');
-			if(storedList == null){
-				workList=[];
-			}else{
-				workList = JSON.parse(storedList);
-			}
-			return workList;
-		}
-
-		function localStorageWorkList(pList){
-			localStorage.setItem('workList',JSON.stringify(pList));
-		}
 		
 
 		if (tarea === "") {
 			tareaInput.setAttribute("placeholder", "Agrega una tarea valida");
 			tareaInput.className = "error";
 			return false;
+		}else if (localStorage.getItem('tarea')){
+			tarea = JSON.parse(localStorage.getItem('tarea'))
 		}
 
 
