@@ -1,69 +1,100 @@
-(function(){
-	
-	// Variable
-	
-	const lista = document.getElementById("lista"),
-	tareaInput = document.getElementById("tareaInput"),
-	btnNuevaTarea = document.getElementById("btn-agregar");
-	
-	// Funciones
-	
-	const agregarTarea = function(){ 
-		
-		let tarea = tareaInput.value,
-		nuevaTarea = document.createElement("li"),
-		enlace = document.createElement("a"),
-		contenido = document.createTextNode(tarea);
-		
 
-		if (tarea === "") {
-			tareaInput.setAttribute("placeholder", "Agrega una tarea valida");
-			tareaInput.className = "error";
-			return false;
-		}else if (localStorage.getItem('tarea')){
-			tarea = JSON.parse(localStorage.getItem('tarea'))
-		}
+const formulario = document.getElementById('formulario');;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+const input = document.getElementById('input')
+const listaTarea = document.getElementById('lista-tareas')
+const template = document.getElementById('template').content
+const fragment = document.createDocumentFragment()
+
+let tareas = {}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('tareas')) {
+        tareas = JSON.parse(localStorage.getItem('tareas'))
+    }
+    pintarTareas()
+})
+
+listaTarea.addEventListener('click', e => {
+    btnAccion(e)
+})
 
 
 
-		//  contenido del enlace
-		enlace.appendChild(contenido);
-		// Atributo href
-		/*enlace.setAttribute("href", "#");*/
-		// Nueva tarea
-		nuevaTarea.appendChild(enlace);
-		// Nueva tarea a la lista
-		lista.appendChild(nuevaTarea);
+formulario.addEventListener('submit', e => {
+    e.preventDefault()
+    
+    setTarea(e)
+})
 
-		tareaInput.value = "";
+const setTarea = e => {
+    if (input.value.trim() === '') {
+        console.log('está vacio')
+        return
+    } 
+    const tarea = {
+        id: Date.now(),
+        texto: input.value,
+        estado: false
+    }
+    tareas[tarea.id] = tarea
+    
+    formulario.reset()
+    input.focus()
+    pintarTareas()
+}
 
-		for (let i = 0; i <= lista.children.length -1; i++) {
-			lista.children[i].addEventListener("click", function(){
-				this.parentNode.removeChild(this);
-			});
-		}
+const pintarTareas = () => {
 
-	};
-	const comprobarInput = function(){
-		tareaInput.className
-		tareaInput.setAttribute("placeholder", "Agrega tu tarea");
-	};
+    localStorage.setItem('tareas', JSON.stringify(tareas))
 
-	const eleminarTarea = function(){
-		this.parentNode.removeChild(this);
-	};
+    if (Object.values(tareas).length === 0) {
+        listaTarea.innerHTML = `
+        <div class="alert alert-dark text-center">
+            No hay tareas pendientes 
+        </div>
+        `
+        return
+    }
 
-	// Eventos
+    listaTarea.innerHTML = ''
+    Object.values(tareas).forEach(tarea => {
+        const clone = template.cloneNode(true)
+        clone.querySelector('p').textContent = tarea.texto
 
-	// Agregar Tarea
-	btnNuevaTarea.addEventListener("click", agregarTarea);
+        if (tarea.estado) {
+            clone.querySelector('.alert').classList.replace('alert-warning', 'alert-primary')
+            clone.querySelectorAll('.fas')[0].classList.replace('fa-check-circle', 'fa-undo-alt')
+            clone.querySelector('p').style.textDecoration = 'line-through'
+        }
 
-	// Comprobar Input
-	tareaInput.addEventListener("click", comprobarInput);
+        clone.querySelectorAll('.fas')[0].dataset.id = tarea.id
+        clone.querySelectorAll('.fas')[1].dataset.id = tarea.id
+        fragment.appendChild(clone)
+    })
+    listaTarea.appendChild(fragment)
+}
 
-	// Borrando Elementos de la lista
-	for (let i = 0; i <= lista.children.length -1; i++) {
-		lista.children[i].addEventListener("click", eleminarTarea);
-	}	
-	
-}());
+const btnAccion = e => {
+    
+    if (e.target.classList.contains('fa-check-circle')) {
+        
+        tareas[e.target.dataset.id].estado = true
+        pintarTareas()
+        
+    }
+
+    if (e.target.classList.contains('fa-minus-circle')) {
+        delete tareas[e.target.dataset.id]
+        pintarTareas()
+        
+    }
+
+    if (e.target.classList.contains('fa-undo-alt')) {
+        tareas[e.target.dataset.id].estado = false
+        pintarTareas()
+    
+    }
+    
+
+    e.stopPropagation()
+}

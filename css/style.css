@@ -14,10 +14,15 @@ header{
 	padding:50px;
 }
 
+#gradienteShop{
+	background-color: #9fa4c4;
+	background-image: linear-gradient(315deg, #9fa4c4 0%, #9e768f 74%);
+
+}
 
 body {
-    background-color: #f5f5f1;
-    background-image: linear-gradient(315deg, #f5f5f1 0%, #e50914 74%);
+	background-color: #90d5ec;
+	background-image: linear-gradient(315deg, #90d5ec 0%, #fc575e 74%);
 	font-family: arial, helvetica, sans-serif;
 	font-size: 16px;
 }
@@ -542,44 +547,3 @@ footer a {
 	}
 }
 
-/*buttom*/
-button {
-	padding: 15px 25px;
-	border: unset;
-	border-radius: 15px;
-	color: #212121;
-	z-index: 1;
-	background: #e8e8e8;
-	position: relative;
-	font-weight: 1000;
-	font-size: 17px;
-	-webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-	box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-	-webkit-transition: all 250ms;
-	transition: all 250ms;
-	overflow: hidden;
-   }
-   
-   button::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 0;
-	border-radius: 15px;
-	background-color: #212121;
-	z-index: -1;
-	-webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-	box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-	-webkit-transition: all 250ms;
-	transition: all 250ms
-   }
-   
-   button:hover {
-	color: #e8e8e8;
-   }
-   
-   button:hover::before {
-	width: 100%;
-   }
