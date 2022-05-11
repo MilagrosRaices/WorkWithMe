@@ -50,7 +50,6 @@ const detectarBotones = (data) => {
 const items = document.querySelector('#items')
 
 const pintarCarrito = () => {
-
   
   items.innerHTML = ''
 
@@ -79,7 +78,7 @@ const pintarCarrito = () => {
 
 const footer = document.querySelector('#footer-carrito')
 const pintarFooter = () => {
-
+  
   footer.innerHTML = ''
 
   if (Object.keys(carrito).length === 0) {
@@ -119,7 +118,7 @@ const pintarFooter = () => {
     text: "Producto agregado al carrito",
     duration: 5000,
     onClick: ()=>{
-       alert("HOLA");
+       alert("tu producto esta siendo agregado en la cola");
     }
  }).showToast()}
 //}
@@ -130,6 +129,7 @@ const accionBotones = () => {
 
 
   botonesAgregar.forEach(btn => {
+
       btn.addEventListener('click', () => {
           const producto = carrito[btn.dataset.id]
           producto.cantidad ++
